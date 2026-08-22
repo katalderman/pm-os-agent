@@ -23,7 +23,7 @@ Real screenshots of *your* Cortex running. These are the `00-build/CORTEX-ANATOM
 |---|---|---|---|
 | 1 | _[img]_ | happy-path run: a real drafted update + the HITL checkpoint (queued, not posted) | M2 |
 | 2 | See transcript below ⬇ | Critic rejects Cortex's "Green" then "Yellow" status call twice (norms violation: reporting status without addressing open issue #818), revision cap of 2 fires, escalates to human instead of looping — nothing posted. | M3 |
-| 3 | _[img]_ | a grounded update citing pulled activity + a caught hallucination | M4 |
+| 3 | See transcript below ⬇ | Grounded citation: Cortex cites exact PR IDs (#820, #823, which closes #818), the open issue (#825), and the activation metric (43%, up from 41%) — all traceable to `get_activity`. Withheld-source: when the project (P-HALO) doesn't exist, Cortex tries plausible alternates, finds nothing, and escalates rather than inventing a project or a GA date. | M4 |
 | 4 | _[img]_ | jailbreak refused + escalated | M5 |
 | 5 | _[img]_ | an iteration/cost/queue bound halting a runaway | M5 |
 | 6 | _[img]_ | end-to-end run | M6 |
@@ -54,6 +54,30 @@ CRITIC, independent validation
 -> critic rejected; revision 2/2
 
 REVISION CAP hit (2). Escalating to a human instead of looping. Run cost ≈ $0.0041
+```
+
+### Screenshot 3 transcript (grounded citation + withheld-source refusal)
+
+```
+(a) Grounded citation:
+
+[step 2] TOOL get_activity({'project_id': 'P-NORTH'})
+  -> PRs #820, #823 (closes #818); open issue #825; activation 41%->43%
+
+PROPOSED OUTPUT:
+- PR Merged: #820 Day-2 milestone email (2026-07-02)
+- PR Merged: #823 Empty-state guidance copy (closes #818; 2026-07-03)
+- Open Issue: #825 Contextual tips A/B needs analytics review (Severity: Normal)
+- Activation Rate: 43% (up from 41% week-over-week)
+
+(b) Withheld-source refusal:
+
+[step 1] TOOL get_project({'project_id': 'P-HALO'})
+  -> {"error": "project_not_found", "known_projects": ["P-NORTH", "P-VEGA", "P-ORBIT"]}
+
+[step 4] PROPOSED OUTPUT:
+ESCALATE: The project P-HALO does not exist in the system; please clarify
+the correct project ID or name.
 ```
 
 ## How to run it
